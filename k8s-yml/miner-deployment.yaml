@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: geth-miner
+spec:
+  replicas: 3
+  progressDeadlineSeconds: 100
+  template:
+    metadata:
+      labels:
+        name: geth-miner
+    spec:
+      containers:
+        - name: geth
+          image: ali92hm/node
+          args: ["--mine", "--minerthreads", "2", "--networkid", "201708", "--etherbase", "0x6ca393ad5e8c30e14f40c91af76bf7d79ebcbce2", "--rpc", "--rpcaddr", "0.0.0.0"]
+          env:
+          - name: MY_ENV_VAR
+            value: A
+          ports:
+            - name: geth-tcp
+              containerPort: 30303
+              protocol: TCP
+            - name: geth-udp
+              containerPort: 30303
+              protocol: UDP
+            - name: geth-rpc
+              containerPort: 8545
+              protocol: TCP
