@@ -1,13 +1,5 @@
-FROM ethereum/client-go:v1.6.1
+FROM ali92hm/node
 
-RUN ln -s /geth /bin/geth
+ADD . /root/.ethereum
 
-ADD keystore /root/.ethereum/keystore
-ADD genesis.json /root/.ethereum
-RUN geth init /root/.ethereum/genesis.json
-
-EXPOSE 30305
-EXPOSE 30305/udp
-EXPOSE 8545
-
-ENTRYPOINT ["geth"]
+ENTRYPOINT ["/bin/sh", "/root/.ethereum/start.sh"]

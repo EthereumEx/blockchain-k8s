@@ -1,19 +1,21 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: geth-miner
+  name: geth-miner-deoloy
 spec:
-  replicas: 3
-  progressDeadlineSeconds: 100
+  replicas: 1
   template:
     metadata:
       labels:
-        name: geth-miner
+        app: geth
+        type: miner
     spec:
       containers:
-        - name: geth
-          image: ali92hm/node
-          args: ["--mine", "--minerthreads", "2", "--networkid", "201708", "--etherbase", "0x6ca393ad5e8c30e14f40c91af76bf7d79ebcbce2", "--rpc", "--rpcaddr", "0.0.0.0"]
+        - name: geth-miner
+          image: ali92hm/node:geth
+          args: ["--networkid", "201708", "--bootnodes", "enode://3f2fd156f7826df00e6e86c49445e7a6ade873f254196e3a660af5273df74a81b228c9b5ac146331f1e402d765e1dcbf10ea685a5607a5c1e105b3f553dbb913@10.0.25.217:30303"
+          ,"--mine", "--etherbase", "0x6ca393ad5e8c30e14f40c91af76bf7d79ebcbce2"]
+          imagePullPolicy: IfNotPresent
           env:
           - name: MY_ENV_VAR
             value: A
@@ -24,6 +26,3 @@ spec:
             - name: geth-udp
               containerPort: 30303
               protocol: UDP
-            - name: geth-rpc
-              containerPort: 8545
-              protocol: TCP

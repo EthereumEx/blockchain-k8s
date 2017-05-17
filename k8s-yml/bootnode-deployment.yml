@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: geth-bootnode-deoloy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: geth
+        type: bootnode
+    spec:
+      containers:
+        - name: geth-bootnode
+          image: ali92hm/node:bootnode
+          args: ["-addr", "0.0.0.0:30303", "-nodekeyhex", "714eef23d30cbd12fd0b1a6cea7895fa3075fcf574066da3457a67f6e018c220"]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: geth-tcp
+              containerPort: 30303
+              protocol: TCP
+            - name: geth-udp
+              containerPort: 30303
+              protocol: UDP
