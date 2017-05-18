@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: geth-bootnode-deoloy
+  name: geth-bootnode
 spec:
   replicas: 1
   template:
@@ -12,9 +12,15 @@ spec:
     spec:
       containers:
         - name: geth-bootnode
-          image: ali92hm/node:bootnode
-          args: ["-addr", "0.0.0.0:30303", "-nodekeyhex", "714eef23d30cbd12fd0b1a6cea7895fa3075fcf574066da3457a67f6e018c220"]
+          image: ali92hm/node:geth
+          command: [bootnode, -addr, "0.0.0.0:30303", -nodekeyhex, $(BOOTNODE_KEY)]
           imagePullPolicy: IfNotPresent
+          env:
+            - name: BOOTNODE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: chain-secrets
+                  key: bootnode-key
           ports:
             - name: geth-tcp
               containerPort: 30303
