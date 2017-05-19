@@ -1,22 +1,33 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: geth-bootnode-pod
+  name: geth-tx-pod
   labels:
     app: geth
-    type: bootnode-test
+    type: tx-test
 spec:
   containers:
-    - name: geth-bootnode-test
+    - name: geth-tx-test
       image: ali92hm/geth:k8s
-      command: [bootnode, -addr, "0.0.0.0:30303", -nodekeyhex, $(BOOTNODE_KEY)]
-      imagePullPolicy: IfNotPresent
+      args: ["--rpc", "--rpcaddr", "0.0.0.0"]
+      imagePullPolicy: Always
+      # imagePullPolicy: IfNotPresent
       env:
-        - name: BOOTNODE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: chain-secrets
-              key: bootnode-key
+      - name: BOOTNODE_KEY
+        valueFrom:
+          secretKeyRef:
+            name: chain-secrets
+            key: bootnode-key
+      - name: NETWORK_ID
+        valueFrom:
+          secretKeyRef:
+            name: chain-secrets
+            key: network-id
+      - name: GENESIS
+        valueFrom:
+          secretKeyRef:
+            name: chain-secrets
+            key: genesis
       ports:
         - name: geth-tcp
           containerPort: 30303
@@ -24,3 +35,6 @@ spec:
         - name: geth-udp
           containerPort: 30303
           protocol: UDP
+        - name: geth-rpc
+          containerPort: 8545
+          protocol: TCP

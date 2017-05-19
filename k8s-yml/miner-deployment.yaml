@@ -27,6 +27,11 @@ spec:
               secretKeyRef:
                 name: chain-secrets
                 key: network-id
+          - name: GENESIS
+            valueFrom:
+              secretKeyRef:
+                name: chain-secrets
+                key: genesis
           ports:
             - name: geth-tcp
               containerPort: 30303
