@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: geth-bootnode
-          image: ali92hm/node:geth
+          image: ali92hm/geth:k8s
           command: [bootnode, -addr, "0.0.0.0:30303", -nodekeyhex, $(BOOTNODE_KEY)]
           imagePullPolicy: IfNotPresent
           env:

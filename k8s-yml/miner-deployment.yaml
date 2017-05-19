@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: geth-miner-deoloy
+  name: geth-miner
 spec:
   replicas: 1
   template:
@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: geth-miner
-          image: ali92hm/node:geth
+          image: ali92hm/geth:k8s
           args: ["--mine", "--etherbase", "0x6ca393ad5e8c30e14f40c91af76bf7d79ebcbce2"]
           imagePullPolicy: Always
           # imagePullPolicy: IfNotPresent

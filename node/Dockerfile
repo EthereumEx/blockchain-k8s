@@ -1,5 +1,5 @@
-FROM ali92hm/node
+FROM ali92hm/geth
 
-ADD . /root/.ethereum
+ADD start.sh .
 
-ENTRYPOINT ["/bin/sh", "/root/.ethereum/start.sh"]
+ENTRYPOINT ["/bin/sh", "start.sh"]
